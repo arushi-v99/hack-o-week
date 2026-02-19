@@ -1,0 +1,183 @@
+<html>
+<head>
+    <title>Nagpur Travel Itinerary</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                    url('https://images.unsplash.com/photo-1601132359864-8d5b7c4d1d7c?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        color: #333;
+    }
+
+    header {
+        background: linear-gradient(45deg, #d35400, #e67e22);
+        color: white;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    nav {
+        background-color: rgba(230, 126, 34, 0.9);
+        padding: 12px;
+        text-align: center;
+        backdrop-filter: blur(5px);
+    }
+
+    nav a {
+        color: white;
+        margin: 0 15px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    nav a:hover {
+        color: #fff3e0;
+        text-decoration: underline;
+    }
+
+    section {
+        max-width: 1000px;
+        margin: 40px auto;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+    }
+
+    section:hover {
+        transform: translateY(-5px);
+    }
+
+    h2 {
+        color: #d35400;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    img {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 10px;
+        margin-top: 10px;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .place {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 10px 18px;
+        background: linear-gradient(45deg, #e67e22, #d35400);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: linear-gradient(45deg, #d35400, #a84300);
+        transform: scale(1.05);
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Nagpur Travel Itinerary</h1>
+    <p>The Orange City of India</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#day1">Day 1</a>
+    <a href="#day2">Day 2</a>
+    <a href="#day3">Day 3</a>
+</nav>
+
+<section id="home">
+    <h2>Welcome to Nagpur</h2>
+    <p>Explore the beauty of Nagpur through this 3-day travel itinerary covering history, nature, wildlife, and shopping.</p>
+</section>
+
+<section id="day1">
+    <h2>Day 1 - City Exploration</h2>
+    <div class="place">
+        <h3>Deekshabhoomi</h3>
+        <img src="Deekshabhoomi.webp" alt="Deekshabhoomi">
+        <br>
+        <a href="https://maps.app.goo.gl/UCYrGHUJg1FS9hAb7" class="btn">View on Map</a>
+    </div>
+
+    <div class="place">
+        <h3>Sitabuldi Fort</h3>
+        <img src="Sitabuldi-Fort.webp" alt="Sitabuldi Fort">
+        <br>
+        <a href="https://maps.app.goo.gl/eLcnqydpoRYLXxWy9" class="btn">View on Map</a>
+    </div>
+
+    <div class="place">
+        <h3>Futala Lake</h3>
+        <img src="futala.jpg" alt="Futala Lake">
+        <br>
+        <a href="https://maps.app.goo.gl/uziGhVXwYEKAYDPr8" class="btn">View on Map</a>
+    </div>
+</section>
+
+<section id="day2">
+    <h2>Day 2 - Nature & Wildlife</h2>
+
+    <div class="place">
+        <h3>Pench National Park</h3>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNJG4YfZxULhG-12pUghw5C2bCG_zdgzAaw&s" alt="Pench National Park">
+        <br>
+        <a href="https://maps.app.goo.gl/EnpYMqL1ff19stVY7" class="btn">View on Map</a>
+    </div>
+
+    <div class="place">
+        <h3>Ambazari Lake</h3>
+        <img src="https://content3.jdmagicbox.com/v2/comp/nagpur/s2/0712px712.x712.141211165833.d9s2/catalogue/ambazari-lake-and-garden-ambazari-nagpur-tourist-attraction-ooEwwT2Yc7.jpg" alt="Ambazari Lake">
+        <br>
+        <a href="https://maps.app.goo.gl/edKNarLJV1NJNzp27" class="btn">View on Map</a>
+    </div>
+</section>
+
+<section id="day3">
+    <h2>Day 3 - Culture & Shopping</h2>
+
+    <div class="place">
+        <h3>Raman Science Centre</h3>
+        <img src="https://amzcabs.in/wp-content/uploads/2024/11/Raman-Science-Centre-1024x818.webp" alt="Raman Science Centre">
+        <br>
+        <a href="https://maps.app.goo.gl/vmfw8mPo9qATsua78" class="btn">View on Map</a>
+    </div>
+
+    <div class="place">
+        <h3>Maharajbag Zoo</h3>
+        <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/34/ab/9a/20190414-172423-largejpg.jpg?w=900&h=500&s=1" alt="Maharajbag Zoo">
+        <br>
+        <a href="https://maps.app.goo.gl/Mvpbk5qMv1cpKXHE7" class="btn">View on Map</a>
+    </div>
+</section>
+
+</body>
+</html>
