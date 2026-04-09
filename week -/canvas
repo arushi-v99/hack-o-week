@@ -1,0 +1,177 @@
+<html>
+<head>
+<title>Canvas Drawing App</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a1c4fd 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+  }
+
+  #menu {
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    align-items: center;
+  }
+
+  button {
+    padding: 5px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+
+  #colors button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid white;
+    padding: 0;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  #colors button:hover {
+    transform: scale(1.2);
+  }
+
+  canvas {
+    border: 4px solid #333;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div id="menu">
+  <button onclick="undo()">Undo</button>
+  <button onclick="redo()">Redo</button>
+  <button onclick="clearCanvas()">Clear</button>
+  <button onclick="saveImage()">Save</button>
+
+  <label style="color:white;">Brush Size:
+    <select id="brushSize" onchange="changeBrushSize(this.value)">
+      <option value="2">2px</option>
+      <option value="5" selected>5px</option>
+      <option value="10">10px</option>
+      <option value="15">15px</option>
+    </select>
+  </label>
+
+  <div id="colors">
+    <button style="background:#ff3f34" onclick="changeColor('#ff3f34')"></button>
+    <button style="background:#1e90ff" onclick="changeColor('#1e90ff')"></button>
+    <button style="background:#32cd32" onclick="changeColor('#32cd32')"></button>
+    <button style="background:#ffa500" onclick="changeColor('#ffa500')"></button>
+    <button style="background:#8a2be2" onclick="changeColor('#8a2be2')"></button>
+    <button style="background:black" onclick="changeColor('black')"></button>
+  </div>
+</div>
+
+<canvas id="canvas" width="900" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let drawing = false;
+let paths = [];
+let redoStack = [];
+let currentColor = 'black';
+let brushSize = 5;
+
+canvas.addEventListener("mousedown", () => {
+  drawing = true;
+  paths.push([]);
+  redoStack = [];
+});
+
+canvas.addEventListener("mouseup", () => drawing = false);
+canvas.addEventListener("mouseleave", () => drawing = false);
+
+canvas.addEventListener("mousemove", (e) => {
+  if (!drawing) return;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  paths[paths.length - 1].push({ x, y, color: currentColor, size: brushSize });
+  redraw();
+});
+
+function redraw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let path of paths) {
+    ctx.beginPath();
+    for (let i = 0; i < path.length; i++) {
+      const p = path[i];
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = p.size;
+      ctx.lineCap = 'round';
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    }
+    ctx.stroke();
+  }
+}
+
+function undo() {
+  if (paths.length > 0) {
+    redoStack.push(paths.pop());
+    redraw();
+  }
+}
+
+function redo() {
+  if (redoStack.length > 0) {
+    paths.push(redoStack.pop());
+    redraw();
+  }
+}
+
+function clearCanvas() {
+  if (paths.length > 0) {
+    redoStack.push(...paths);
+    paths = [];
+    redraw();
+  }
+}
+
+function saveImage() {
+  const link = document.createElement('a');
+  link.download = 'my_drawing.png';
+  link.href = canvas.toDataURL();
+  link.click();
+}
+
+function changeColor(color) {
+  currentColor = color;
+}
+
+function changeBrushSize(size) {
+  brushSize = parseInt(size);
+}
+</script>
+
+</body>
+</html>
