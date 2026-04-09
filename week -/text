@@ -1,0 +1,243 @@
+<html>
+<head>
+<title>Smart Editor Pro</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: black;
+  color: white;
+}
+
+/* Animated background */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, #ff00cc, #3333ff, #00ffcc);
+  animation: moveBg 10s linear infinite;
+  z-index: -1;
+  filter: blur(120px);
+}
+
+@keyframes moveBg {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-25%, -25%); }
+  100% { transform: translate(0,0); }
+}
+
+/* MENU BAR */
+.menu {
+  display: flex;
+  gap: 20px;
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.menu button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.menu button:hover {
+  color: cyan;
+}
+
+/* MAIN */
+.container {
+  width: 650px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 40px rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+textarea {
+  width: 95%;
+  height: 200px;
+  border-radius: 10px;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  outline: none;
+}
+
+.buttons {
+  margin-top: 15px;
+}
+
+button.action {
+  padding: 10px 18px;
+  margin: 6px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+.undo { background: #ff416c; }
+.redo { background: #36d1dc; }
+.clear { background: #f7971e; }
+
+button.action:hover {
+  transform: scale(1.1);
+}
+
+
+.stats {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* TEAM */
+.team {
+  margin-top: 20px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+
+.light {
+  background: white;
+  color: black;
+}
+
+.light .container {
+  background: rgba(0,0,0,0.05);
+}
+
+.light textarea {
+  background: #f4f4f4;
+  color: black;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="menu">
+  <button onclick="downloadFile()">📂 File</button>
+  <button onclick="undo()">↩ Edit</button>
+  <button onclick="toggleTheme()">🎨 Theme</button>
+  <button onclick="focusMode()">🔍 Focus</button>
+</div>
+
+<div class="container">
+  <h1>Smart Editor Pro+</h1>
+
+  <textarea id="editor" placeholder="Start typing..."></textarea>
+
+  <div class="buttons">
+    <button class="action undo" onclick="undo()">Undo</button>
+    <button class="action redo" onclick="redo()">Redo</button>
+    <button class="action clear" onclick="clearText()">Clear</button>
+  </div>
+
+  <div class="stats" id="stats">
+    Words: 0 | Characters: 0
+  </div>
+
+  <div class="team">
+    👨‍💻 Team Hackers<br>
+    Arushi V<br>
+    Laranya S<br>
+    Harshini SJ
+  </div>
+</div>
+
+<script>
+let undoStack = [];
+let redoStack = [];
+
+const editor = document.getElementById("editor");
+const stats = document.getElementById("stats");
+
+// Load saved
+editor.value = localStorage.getItem("text") || "";
+
+// Input tracking
+editor.addEventListener("input", () => {
+  undoStack.push(editor.value);
+  redoStack = [];
+  localStorage.setItem("text", editor.value);
+  updateStats();
+});
+
+// Undo
+function undo() {
+  if (undoStack.length > 1) {
+    redoStack.push(undoStack.pop());
+    editor.value = undoStack[undoStack.length - 1];
+    updateStats();
+  }
+}
+
+// Redo
+function redo() {
+  if (redoStack.length > 0) {
+    const state = redoStack.pop();
+    undoStack.push(state);
+    editor.value = state;
+    updateStats();
+  }
+}
+
+// Clear
+function clearText() {
+  editor.value = "";
+  undoStack.push("");
+  updateStats();
+}
+
+// Download file
+function downloadFile() {
+  let text = editor.value;
+  let blob = new Blob([text], { type: "text/plain" });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "my-notes.txt";
+  a.click();
+}
+
+// Theme toggle
+function toggleTheme() {
+  document.body.classList.toggle("light");
+}
+
+// Focus mode
+function focusMode() {
+  document.querySelector(".container").style.transform = "scale(1.1)";
+}
+
+// Shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "z") undo();
+  if (e.ctrlKey && e.key === "y") redo();
+});
+
+// Stats
+function updateStats() {
+  let text = editor.value;
+  let words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  stats.innerText = `Words: ${words} | Characters: ${text.length}`;
+}
+
+// Init
+undoStack.push(editor.value);
+updateStats();
+</script>
+
+</body>
+</html>
